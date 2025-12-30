@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Calculadora - Corpos de Armas</title>
+  <title>Calculadora - Materiais de Craft</title>
 
   <style>
     :root{
@@ -19,13 +19,13 @@
       margin: 0;
       color: #ffffff;
       background:
-        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
         url("fundo.jpg") no-repeat center center fixed;
       background-size: cover;
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 1000px;
       margin: 40px auto;
       padding: 26px;
       border-radius: 22px;
@@ -38,7 +38,7 @@
 
     h1 {
       text-align: center;
-      margin: 0 0 6px;
+      margin-bottom: 6px;
       font-weight: 900;
       letter-spacing: 1px;
     }
@@ -64,7 +64,7 @@
     }
 
     h2{
-      margin: 0 0 14px;
+      margin-bottom: 14px;
       font-size: 18px;
       text-align:center;
     }
@@ -73,7 +73,6 @@
       display: block;
       margin-top: 12px;
       font-size: 14px;
-      opacity: 0.95;
     }
 
     input {
@@ -85,12 +84,7 @@
       font-size: 16px;
       background: var(--white);
       color: #000;
-      box-sizing: border-box;
       outline: none;
-    }
-
-    input:focus{
-      box-shadow: 0 0 0 3px rgba(255,255,255,0.18);
     }
 
     .btns{
@@ -133,14 +127,6 @@
 
     .value{
       font-weight: 800;
-      letter-spacing: .3px;
-    }
-
-    .note{
-      margin-top: 12px;
-      font-size: 12px;
-      opacity: 0.8;
-      line-height: 1.4;
     }
 
     .logo{
@@ -161,13 +147,14 @@
 
 <body>
   <div class="container">
-    <h1>Calculadora - Corpos de Armas</h1>
-    <div class="subtitle">Rifle • SMG • Pistola</div>
+    <h1>Calculadora de Materiais</h1>
+    <div class="subtitle">Corpos de Rifle • SMG • Pistola</div>
 
     <div class="layout">
+
       <!-- ESQUERDA -->
       <div class="card">
-        <h2>Crafts</h2>
+        <h2>Quantidade de Crafts</h2>
 
         <label>Corpo de Rifle</label>
         <input type="number" id="rifle" value="0" min="0">
@@ -179,35 +166,34 @@
         <input type="number" id="pistola" value="0" min="0">
 
         <div class="btns">
-          <button id="resetBtn" type="button">RESET</button>
-        </div>
-
-        <div class="note">
-          Custos por craft:<br>
-          • Rifle: 10 Peças • 100 Sucata • 100 Alumínio<br>
-          • SMG: 8 Peças • 80 Sucata • 80 Alumínio<br>
-          • Pistola: 6 Peças • 70 Sucata • 70 Alumínio
+          <button id="resetBtn">RESET</button>
         </div>
       </div>
 
       <!-- DIREITA -->
       <div class="card">
-        <h2>Materiais Totais</h2>
+        <h2>Materiais Necessários</h2>
 
         <div class="result">
-          <div class="row"><span>📦 Total de crafts</span><span class="value" id="total_crafts">0</span></div>
-          <div class="row"><span>🧩 Peças de Arma</span><span class="value" id="pecas">0</span></div>
-          <div class="row"><span>🪙 Sucata</span><span class="value" id="sucata">0</span></div>
-          <div class="row"><span>⚪ Alumínio</span><span class="value" id="aluminio">0</span></div>
+          <div class="row">
+            <span>🧩 Peças de Arma</span>
+            <span class="value" id="pecas">0</span>
+          </div>
 
-          <div class="row"><span>🔫 Corpos (Rifle)</span><span class="value" id="out_rifle">0</span></div>
-          <div class="row"><span>🔫 Corpos (SMG)</span><span class="value" id="out_smg">0</span></div>
-          <div class="row"><span>🔫 Corpos (Pistola)</span><span class="value" id="out_pistola">0</span></div>
+          <div class="row">
+            <span>🪙 Sucata</span>
+            <span class="value" id="sucata">0</span>
+          </div>
+
+          <div class="row">
+            <span>⚪ Alumínio</span>
+            <span class="value" id="aluminio">0</span>
+          </div>
         </div>
       </div>
+
     </div>
 
-    <!-- LOGO ALTERADO -->
     <div class="logo">VAGOS</div>
   </div>
 
@@ -221,27 +207,20 @@
     const campos = ["rifle", "smg", "pistola"];
 
     function calcular(){
-      let totalCrafts = 0;
       let totalPecas = 0;
       let totalSucata = 0;
       let totalAluminio = 0;
 
       campos.forEach(id => {
         const n = Number(document.getElementById(id).value) || 0;
-        totalCrafts += n;
         totalPecas += receitas[id].pecas * n;
         totalSucata += receitas[id].sucata * n;
         totalAluminio += receitas[id].aluminio * n;
       });
 
-      document.getElementById("total_crafts").innerText = totalCrafts;
-      document.getElementById("pecas").innerText = totalPecas;
-      document.getElementById("sucata").innerText = totalSucata;
-      document.getElementById("aluminio").innerText = totalAluminio;
-
-      document.getElementById("out_rifle").innerText = document.getElementById("rifle").value || 0;
-      document.getElementById("out_smg").innerText = document.getElementById("smg").value || 0;
-      document.getElementById("out_pistola").innerText = document.getElementById("pistola").value || 0;
+      document.getElementById("pecas").innerText = totalPecas.toLocaleString();
+      document.getElementById("sucata").innerText = totalSucata.toLocaleString();
+      document.getElementById("aluminio").innerText = totalAluminio.toLocaleString();
     }
 
     document.querySelectorAll("input").forEach(i => i.addEventListener("input", calcular));
