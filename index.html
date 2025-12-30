@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora - Corpos de Armas</title>
+
+  <style>
+    :root{
+      --white: rgba(255,255,255,0.95);
+      --glass: rgba(255,255,255,0.14);
+      --border: rgba(255,255,255,0.25);
+      --shadow: rgba(0,0,0,0.35);
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      color: #ffffff;
+      background:
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+        url("fundo.jpg") no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 26px;
+      border-radius: 22px;
+      background: var(--glass);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 35px var(--shadow);
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0 0 6px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .subtitle{
+      text-align:center;
+      font-size: 13px;
+      opacity: 0.8;
+      margin-bottom: 22px;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .card{
+      padding: 22px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    h2{
+      margin: 0 0 14px;
+      font-size: 18px;
+      text-align:center;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-size: 14px;
+      opacity: 0.95;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 12px;
+      border: none;
+      font-size: 16px;
+      background: var(--white);
+      color: #000;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    input:focus{
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.18);
+    }
+
+    .btns{
+      margin-top: 14px;
+      display:flex;
+      gap:10px;
+    }
+
+    button{
+      flex:1;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      font-weight: 800;
+      cursor:pointer;
+    }
+
+    button:hover{
+      background: rgba(255,255,255,0.20);
+    }
+
+    .result{
+      display:grid;
+      gap:10px;
+      font-size:15px;
+    }
+
+    .row{
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      font-weight: 650;
+    }
+
+    .value{
+      font-weight: 800;
+      letter-spacing: .3px;
+    }
+
+    .note{
+      margin-top: 12px;
+      font-size: 12px;
+      opacity: 0.8;
+      line-height: 1.4;
+    }
+
+    .logo{
+      text-align:center;
+      margin-top: 22px;
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      opacity: .9;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 900px){
+      .layout{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Calculadora - Corpos de Armas</h1>
+    <div class="subtitle">Rifle • SMG • Pistola</div>
+
+    <div class="layout">
+      <!-- ESQUERDA -->
+      <div class="card">
+        <h2>Crafts</h2>
+
+        <label>Corpo de Rifle</label>
+        <input type="number" id="rifle" value="0" min="0">
+
+        <label>Corpo de SMG</label>
+        <input type="number" id="smg" value="0" min="0">
+
+        <label>Corpo de Pistola</label>
+        <input type="number" id="pistola" value="0" min="0">
+
+        <div class="btns">
+          <button id="resetBtn" type="button">RESET</button>
+        </div>
+
+        <div class="note">
+          Custos por craft:<br>
+          • Rifle: 10 Peças • 100 Sucata • 100 Alumínio<br>
+          • SMG: 8 Peças • 80 Sucata • 80 Alumínio<br>
+          • Pistola: 6 Peças • 70 Sucata • 70 Alumínio
+        </div>
+      </div>
+
+      <!-- DIREITA -->
+      <div class="card">
+        <h2>Materiais Totais</h2>
+
+        <div class="result">
+          <div class="row"><span>📦 Total de crafts</span><span class="value" id="total_crafts">0</span></div>
+          <div class="row"><span>🧩 Peças de Arma</span><span class="value" id="pecas">0</span></div>
+          <div class="row"><span>🪙 Sucata</span><span class="value" id="sucata">0</span></div>
+          <div class="row"><span>⚪ Alumínio</span><span class="value" id="aluminio">0</span></div>
+
+          <div class="row"><span>🔫 Corpos (Rifle)</span><span class="value" id="out_rifle">0</span></div>
+          <div class="row"><span>🔫 Corpos (SMG)</span><span class="value" id="out_smg">0</span></div>
+          <div class="row"><span>🔫 Corpos (Pistola)</span><span class="value" id="out_pistola">0</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGO ALTERADO -->
+    <div class="logo">VAGOS</div>
+  </div>
+
+  <script>
+    const receitas = {
+      rifle:   { pecas: 10, sucata: 100, aluminio: 100 },
+      smg:     { pecas: 8,  sucata: 80,  aluminio: 80  },
+      pistola: { pecas: 6,  sucata: 70,  aluminio: 70  }
+    };
+
+    const campos = ["rifle", "smg", "pistola"];
+
+    function calcular(){
+      let totalCrafts = 0;
+      let totalPecas = 0;
+      let totalSucata = 0;
+      let totalAluminio = 0;
+
+      campos.forEach(id => {
+        const n = Number(document.getElementById(id).value) || 0;
+        totalCrafts += n;
+        totalPecas += receitas[id].pecas * n;
+        totalSucata += receitas[id].sucata * n;
+        totalAluminio += receitas[id].aluminio * n;
+      });
+
+      document.getElementById("total_crafts").innerText = totalCrafts;
+      document.getElementById("pecas").innerText = totalPecas;
+      document.getElementById("sucata").innerText = totalSucata;
+      document.getElementById("aluminio").innerText = totalAluminio;
+
+      document.getElementById("out_rifle").innerText = document.getElementById("rifle").value || 0;
+      document.getElementById("out_smg").innerText = document.getElementById("smg").value || 0;
+      document.getElementById("out_pistola").innerText = document.getElementById("pistola").value || 0;
+    }
+
+    document.querySelectorAll("input").forEach(i => i.addEventListener("input", calcular));
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      campos.forEach(id => document.getElementById(id).value = 0);
+      calcular();
+    });
+
+    calcular();
+  </script>
+</body>
+</html>
